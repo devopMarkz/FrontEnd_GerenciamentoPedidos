@@ -1,0 +1,120 @@
+.actions {
+    display: flex;
+    gap: 15px;
+}
+
+.actions span {
+    background-color: #336699;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.container {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background-color: #d9e1f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover{
+    background-color: rgb(237, 237, 237);
+}
+
+.deletar_produto{
+    text-align: center;
+}
+
+.deletar_produto img{
+    cursor: pointer;
+}
+
+.aviso_exclusao{
+    z-index: 10;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    display: block;
+    padding: 20px;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.container_aviso{
+    z-index: 1;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .5);
+}
+
+.fechar_aviso{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: none;
+    text-align: center;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.confirmacao_aviso {
+  background-color: #1e4e79 ; /* verde */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirmacao_aviso:hover {
+  background-color: #39668e; /* verde escuro no hover */
+}
+
+.negacao_aviso {
+  background-color: #1e4e79; /* vermelho */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.negacao_aviso:hover {
+  background-color: #39668e; /* vermelho escuro no hover */
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../vue.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="estoque.css">
+    <title>Estoque</title>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <header>
+            <h1>Estoque</h1>
+            <div class="actions">
+                <span>Ações</span>
+                <span>Consultar</span>
+                <span>Imprimir/Exportar</span>
+            </div>
+        </header>
+
+        <div class="container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Preço (R$)</th>
+                        <th>Quantidade</th>
+                        <th>Apagar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr v-for="produto in produtos" :key="produto.id">
+                        <td>{{produto.id}}</td>
+                        <td>{{produto.nome}}</td>
+                        <td>{{produto.descricao}}</td>
+                        <td>{{produto.preco | numeroPreco}}</td>
+                        <td>{{produto.quantidade}}</td>
+                        <td class="deletar_produto">
+                            <img src="../../assets/icons/delete-icon.svg" alt="deletar"
+                                @click="ativarAvisoDelecao(produto)">
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="container_aviso" v-if="produto" @click="fecharModal(event)">
+            <div class="aviso_exclusao">
+                <p class="info_exclusao">Deseja excluir {{produto.nome}}?</p>
+                <button class="confirmacao_aviso" @click="deletarProduto(produto.id)">Sim</button>
+                <button class="negacao_aviso" @click="produto = false">Não</button>
+                <button @click="produto = false" class="fechar_aviso"><img src="../../assets/icons/fechar.svg" alt="" srcset=""></button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="../../app.js"></script>
+</body>
+
+</html>
