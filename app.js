@@ -81,6 +81,31 @@ const vm = new Vue({
                     console.error('Erro na requisição PUT:', error);
                     alert('Erro de conexão com o servidor.');
                 });
+        },
+
+        exportarRelatorioEstoque() {
+            fetch('http://localhost:8080/produtos/download/excel')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao baixar o arquivo');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'relatorio.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Erro no download:', error);
+                });
         }
 
     },

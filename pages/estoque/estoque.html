@@ -17,9 +17,9 @@
         <header>
             <h1>Estoque</h1>
             <div class="actions">
-                <span>Ações</span>
-                <span>Consultar</span>
-                <span>Imprimir/Exportar</span>
+                <button>Ações</button>
+                <button>Consultar</button>
+                <button @click="exportarRelatorioEstoque()">Imprimir/Exportar</button>
             </div>
         </header>
 
@@ -59,8 +59,10 @@
         <div class="container_fundo" v-if="produto" @click="fecharModal(event)">
             <div class="aviso_exclusao">
                 <p class="info_exclusao">Deseja excluir {{produto.nome}}?</p>
-                <button class="confirmacao_aviso" @click="deletarProduto(produto.id)">Sim</button>
-                <button class="negacao_aviso" @click="produto = false">Não</button>
+                <div class="botoes_tela-exclusao">
+                    <button class="btn" @click="deletarProduto(produto.id)">Sim</button>
+                    <button class="btn" @click="produto = false">Não</button>
+                </div>
                 <button @click="produto = false" class="fechar_aviso"><img src="../../assets/icons/fechar.svg" alt=""
                         srcset=""></button>
             </div>
@@ -71,21 +73,31 @@
                 <h2>Editar Produto</h2>
 
                 <form @submit.prevent>
-                    <label for="nome">Nome:</label>
-                    <input type="text" v-model="produtoEdicao.nome" id="nome" required>
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" v-model="produtoEdicao.nome" id="nome" required>
+                    </div>
 
-                    <label for="descricao">Descrição:</label>
-                    <input type="text" v-model="produtoEdicao.descricao" id="descricao" required>
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" v-model="produtoEdicao.descricao" id="descricao" required>
+                    </div>
 
-                    <label for="preco">Preço:</label>
-                    <input type="number" v-model.number="produtoEdicao.preco" id="preco" step="0.01" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="preco">Preço</label>
+                            <input type="number" v-model.number="produtoEdicao.preco" id="preco" step="0.01" required>
+                        </div>
 
-                    <label for="quantidade">Quantidade:</label>
-                    <input type="number" v-model.number="produtoEdicao.quantidade" id="quantidade" required>
+                        <div class="form-group">
+                            <label for="quantidade">Quantidade</label>
+                            <input type="number" v-model.number="produtoEdicao.quantidade" id="quantidade" required>
+                        </div>
+                    </div>
 
                     <div class="botoes_edicao">
-                        <button type="submit" class="confirmacao_aviso" @click="editarProduto">Salvar</button>
-                        <button type="button" class="negacao_aviso" @click="produtoEdicao = false">Cancelar</button>
+                        <button type="submit" class="btn" @click="editarProduto">Salvar</button>
+                        <button type="button" class="btn" @click="produtoEdicao = false">Cancelar</button>
                     </div>
                 </form>
             </div>
