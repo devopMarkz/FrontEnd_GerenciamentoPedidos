@@ -6,8 +6,8 @@ const vm = new Vue({
         produtos: [],
         produto: false,
         produtoEdicao: false,
-        produtoCadastro: false
-
+        produtoCadastro: false,
+        endpoint_produtos: 'http://localhost:8080'
 
     },
 
@@ -21,13 +21,13 @@ const vm = new Vue({
 
         // Estoque
         carregarEstoque() {
-            fetch("http://localhost:8080/produtos")
+            fetch(`${this.endpoint_produtos}/produtos`)
                 .then(response => response.json())
                 .then(data => this.produtos = data);
         },
 
         deletarProduto(id) {
-            fetch(`http://localhost:8080/produtos/${id}`, {
+            fetch(`${this.endpoint_produtos}/produtos/${id}`, {
                 method: 'DELETE'
             })
                 .then(response => {
@@ -51,6 +51,7 @@ const vm = new Vue({
             if (event.target === event.currentTarget) {
                 this.produto = false;
                 this.produtoEdicao = false;
+                this.produtoCadastro = false;
             }
         },
 
@@ -59,7 +60,7 @@ const vm = new Vue({
         },
 
         editarProduto() {
-            fetch(`http://localhost:8080/produtos/${this.produtoEdicao.id}`, {
+            fetch(`${this.endpoint_produtos}/produtos/${this.produtoEdicao.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -85,7 +86,7 @@ const vm = new Vue({
         },
 
         exportarRelatorioEstoque() {
-            fetch('http://localhost:8080/produtos/download/excel')
+            fetch(`${this.endpoint_produtos}/produtos/download/excel`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erro ao baixar o arquivo');
@@ -110,7 +111,7 @@ const vm = new Vue({
         },
 
         cadastrarProduto(){
-            fetch(`http://localhost:8080/produtos`, {
+            fetch(`${this.endpoint_produtos}/produtos`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
