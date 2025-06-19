@@ -5,7 +5,8 @@ const vm = new Vue({
         // Estoque 
         produtos: [],
         produto: false,
-        produtoEdicao: false
+        produtoEdicao: false,
+        produtoCadastro: false
 
 
     },
@@ -106,7 +107,42 @@ const vm = new Vue({
                 .catch(error => {
                     console.error('Erro no download:', error);
                 });
-        }
+        },
+
+        cadastrarProduto(){
+            fetch(`http://localhost:8080/produtos`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nome: this.produtoCadastro.nome,
+                    descricao: this.produtoCadastro.descricao,
+                    preco: this.produtoCadastro.preco,
+                    quantidade: this.produtoCadastro.quantidade
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        this.produtoCadastro = false;
+                    } else {
+                        alert('Erro ao cadastrar o produto.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na requisição POST:', error);
+                    alert('Erro de conexão com o servidor.');
+                });
+        },
+
+        abrirModalCadastroProduto() {
+            this.produtoCadastro = {
+                nome: '',
+                descricao: '',
+                preco: 0,
+                quantidade: 0
+            };
+        },
 
     },
 
