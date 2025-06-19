@@ -15,11 +15,14 @@
     <div id="app">
 
         <header>
-            <h1>Estoque</h1>
+            <div class="logos">
+                <h1 @click="irParaPaginaInicial()" style="cursor: pointer;">Home</h1>
+                <h1 style="cursor: pointer;">Estoque</h1>
+            </div>
             <div class="actions">
                 <button @click="abrirModalCadastroProduto()">Cadastrar Produto</button>
                 <button>Consultar</button>
-                <button @click="exportarRelatorioEstoque()">Exportar Excel</button>
+                <button @click.once="exportarRelatorioEstoque()">Exportar Excel</button>
             </div>
         </header>
 

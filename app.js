@@ -16,9 +16,18 @@ const vm = new Vue({
         clienteCadastro: false,
         clienteEdicao: false,
         novoCliente: {
-          nome: '',
-          cpf: ''
-        }
+            nome: '',
+            cpf: ''
+        },
+
+        // PEDIDOS
+        endpoint_pedidos: 'http://localhost:8082',
+        clienteId: '',
+        itens: [
+            { produtoId: '', quantidade: 1 }
+        ],
+        clientes: [],
+        produtos: []
 
     },
 
@@ -29,6 +38,10 @@ const vm = new Vue({
     },
 
     methods: {
+
+        irParaPaginaInicial() {
+            window.location.href = 'http://127.0.0.7:5500/index.html';
+        },
 
         // Estoque
         carregarEstoque() {
@@ -112,7 +125,7 @@ const vm = new Vue({
 
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'relatorio.xlsx';
+                    a.download = 'relatorio_produtos.xlsx';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -124,7 +137,7 @@ const vm = new Vue({
                 });
         },
 
-        cadastrarProduto(){
+        cadastrarProduto() {
             fetch(`${this.endpoint_produtos}/produtos`, {
                 method: "POST",
                 headers: {
@@ -161,10 +174,10 @@ const vm = new Vue({
 
         // CLIENTES
         abrirModalCadastroCliente() {
-          this.clienteCadastro = {
-            nome: '',
-            cpf: ''
-          };
+            this.clienteCadastro = {
+                nome: '',
+                cpf: ''
+            };
         },
 
         cadastrarCliente() {
@@ -182,22 +195,22 @@ const vm = new Vue({
             this.clienteCadastro = false;
         },
 
-        carregarClientes(){
+        carregarClientes() {
             fetch(`${this.endpoint_clientes}/clientes`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
-            .then(response => response.json())
-            .then(data => this.clientes = data);
+                .then(response => response.json())
+                .then(data => this.clientes = data);
         },
 
-        deletarCliente(id){
+        deletarCliente(id) {
             fetch(`${this.endpoint_clientes}/clientes/${id}`, {
                 method: 'DELETE'
             })
-            .then(response => {
+                .then(response => {
                     if (response.ok) {
                         this.produto = false;
                     } else {
@@ -209,7 +222,7 @@ const vm = new Vue({
                     alert('Erro de conexão com o servidor.');
                 });
 
-                this.cliente = false;
+            this.cliente = false;
         },
 
         editarCliente() {
@@ -234,6 +247,9 @@ const vm = new Vue({
                     console.error('Erro na requisição PUT:', error);
                     alert('Erro de conexão com o servidor.');
                 });
+
+            console.log("PUT");
+
         },
 
         ativarAvisoDelecaoCliente(cliente) {
@@ -244,6 +260,67 @@ const vm = new Vue({
             this.clienteEdicao = cliente;
         },
 
+        exportarRelatorioClientes() {
+            fetch(`${this.endpoint_clientes}/clientes/download/excel`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao baixar o arquivo');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'relatorio_clientes.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Erro no download:', error);
+                });
+        },
+
+        // PEDIDOS
+        adicionarItem() {
+            this.itens.push({ produtoId: '', quantidade: 1 });
+        },
+        async carregarDados() {
+            const resClientes = await fetch('http://localhost:8081/clientes');
+            this.clientes = await resClientes.json();
+
+            const resProdutos = await fetch('http://localhost:8080/produtos');
+            this.produtos = await resProdutos.json();
+        },
+        async enviarPedido() {
+            const pedido = {
+                clienteId: this.clienteId,
+                itens: this.itens.map(i => ({
+                    produtoId: i.produtoId,
+                    quantidade: i.quantidade
+                }))
+            };
+
+            const response = await fetch(`${this.endpoint_pedidos}/pedidos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(pedido)
+            });
+
+            if (response.ok) {
+                alert('Pedido criado com sucesso!');
+                // Resetar
+                this.clienteId = '';
+                this.itens = [{ produtoId: '', quantidade: 1 }];
+            } else {
+                alert('Erro ao criar pedido');
+            }
+        }
+
     },
 
     created() {
@@ -252,6 +329,9 @@ const vm = new Vue({
 
         // CLIENTES
         this.carregarClientes();
+
+        // PEDIDOS
+        this.carregarDados();
     },
 
     watch: {
@@ -264,10 +344,11 @@ const vm = new Vue({
         clientes() {
             this.carregarClientes();
         }
+        
     },
 
     computed: {
-        totalValorProdutos(){
+        totalValorProdutos() {
             let sum = 0;
 
             this.produtos.forEach(element => {
@@ -277,7 +358,7 @@ const vm = new Vue({
             return sum;
         },
 
-        totalQuantiaEstoque(){
+        totalQuantiaEstoque() {
             let sum = 0;
 
             this.produtos.forEach(element => {

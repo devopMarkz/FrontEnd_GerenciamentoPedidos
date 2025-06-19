@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Clientes</title>
@@ -9,13 +10,18 @@
   <link rel="stylesheet" href="clientes.css">
   <script src="../../vue.min.js"></script>
 </head>
+
 <body>
   <div id="app">
     <header>
-      <h1>Clientes</h1>
+      <div class="logos">
+        <h1 @click="irParaPaginaInicial()" style="cursor: pointer;">Home</h1>
+        <h1 style="cursor: pointer;">Clientes</h1>
+      </div>
       <div class="actions">
         <button @click="abrirModalCadastroCliente()">Cadastrar Cliente</button>
         <button>Consultar</button>
+        <button @click.once="exportarRelatorioClientes()">Exportar Excel</button>
       </div>
     </header>
 
@@ -39,7 +45,8 @@
             <td>{{ cliente.isFidelizado ? 'Sim' : 'Não' }}</td>
             <td>{{ cliente.quantidadeDeCompras }}</td>
             <td class="deletar" @click.stop>
-                <img src="../../assets/icons/delete-icon.svg" alt="deletar" @click.stop="ativarAvisoDelecaoCliente(cliente)">
+              <img src="../../assets/icons/delete-icon.svg" alt="deletar"
+                @click.stop="ativarAvisoDelecaoCliente(cliente)">
             </td>
           </tr>
         </tbody>
@@ -70,40 +77,41 @@
     </div>
 
     <div class="container_fundo" v-if="cliente" @click="fecharModal(event)">
-            <div class="aviso_exclusao">
-                <p class="info_exclusao">Deseja excluir {{cliente.nome}}?</p>
-                <div class="botoes_tela-exclusao">
-                    <button class="btn" @click="deletarCliente(cliente.id)">Sim</button>
-                    <button class="btn" @click="cliente = false">Não</button>
-                </div>
-            </div>
+      <div class="aviso_exclusao">
+        <p class="info_exclusao">Deseja excluir {{cliente.nome}}?</p>
+        <div class="botoes_tela-exclusao">
+          <button class="btn" @click="deletarCliente(cliente.id)">Sim</button>
+          <button class="btn" @click="cliente = false">Não</button>
+        </div>
+      </div>
     </div>
 
     <div class="container_fundo" v-if="clienteEdicao" @click="fecharModal(event)">
-            <div class="edicao_produto">
-                <h2>Editar Cliente</h2>
+      <div class="edicao_produto">
+        <h2>Editar Cliente</h2>
 
-                <form @submit.prevent>
-                    <div class="form-group">
-                        <label for="nome">Nome</label>
-                        <input type="text" v-model="clienteEdicao.nome" id="nome" required>
-                    </div>
+        <form @submit.prevent>
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" v-model="clienteEdicao.nome" id="nome" required>
+          </div>
 
-                    <div class="form-group">
-                        <label for="descricao">CPF</label>
-                        <input type="text" v-model="clienteEdicao.cpf" id="cpf" required>
-                    </div>
+          <div class="form-group">
+            <label for="descricao">CPF</label>
+            <input type="text" v-model="clienteEdicao.cpf" id="cpf" required>
+          </div>
 
-                    <div class="botoes_edicao">
-                        <button type="submit" class="btn" @click="editarCliente()">Salvar</button>
-                        <button type="button" class="btn" @click="clienteEdicao = false">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+          <div class="botoes_edicao">
+            <button type="submit" class="btn" @click="editarCliente()">Salvar</button>
+            <button type="button" class="btn" @click="clienteEdicao = false">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
 
   <script src="../../app.js"></script>
 </body>
+
 </html>

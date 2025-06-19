@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
 }
 
@@ -37,4 +37,26 @@ header h1 {
 
 .btn:hover {
     background-color: #39668e;
+}
+
+.actions button,
+.actions2 button {
+    background-color: #336699;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+    color: white;
+}
+
+.actions button:hover,
+.actions2 button:hover   {
+    background-color: #395b79;
+}
+
+.logos {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
