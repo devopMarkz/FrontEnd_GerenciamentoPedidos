@@ -1,21 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="vue.min.js"></script>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./assets/css/global.css">
+  <link rel="stylesheet" href="index.css">
+  <title>Sistema de Gestão</title>
 </head>
 <body>
-    
-    <div id="app">
-        <ul>
-            <li v-for="item in produtos">
-                {{item}}
-            </li>
-        </ul>
+
+  <div class="header">
+    <h1>Bem-vindo ao Sistema de Gestão</h1>
+    <p>Gerencie clientes, pedidos e o estoque de forma simples e rápida</p>
+  </div>
+
+  <div class="main-container">
+    <div class="cards">
+      <div class="card" onclick="irParaClientes()">
+        <div class="card-icon">👥</div>
+        <h2>Cadastro de Clientes</h2>
+        <p>Visualize, edite e adicione novos clientes ao sistema</p>
+      </div>
+
+      <div class="card" onclick="irParaPedidos()">
+        <div class="card-icon">🧾</div>
+        <h2>Cadastro de Pedidos</h2>
+        <p>Registre pedidos, acompanhe status e histórico</p>
+      </div>
+
+      <div class="card" onclick="irParaEstoque()">
+        <div class="card-icon">📦</div>
+        <h2>Gestão de Estoque</h2>
+        <p>Monitore a quantidade de produtos disponíveis</p>
+      </div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="footer">
+      Sistema de Gestão &copy; 2025 - Desenvolvido por Marcos André
+    </div>
+  </div>
+
+  <script>
+    function irParaEstoque(){
+        window.location.href = 'http://127.0.0.7:5500/pages/estoque/estoque.html';
+    }
+  </script>
+
 </body>
 </html>
