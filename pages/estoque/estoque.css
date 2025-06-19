@@ -45,11 +45,11 @@ tr:hover {
     background-color: rgb(237, 237, 237);
 }
 
-.deletar_produto {
+.deletar {
     text-align: center;
 }
 
-.deletar_produto img {
+.deletar img {
     cursor: pointer;
 }
 

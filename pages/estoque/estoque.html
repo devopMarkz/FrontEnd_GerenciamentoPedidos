@@ -45,7 +45,7 @@
                         <td>{{produto.descricao}}</td>
                         <td>{{produto.preco | numeroPreco}}</td>
                         <td>{{produto.quantidade}}</td>
-                        <td class="deletar_produto" @click.stop>
+                        <td class="deletar" @click.stop>
                             <img src="../../assets/icons/delete-icon.svg" alt="deletar"
                                 @click.stop="ativarAvisoDelecao(produto)">
                         </td>

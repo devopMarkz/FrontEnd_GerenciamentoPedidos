@@ -7,7 +7,18 @@ const vm = new Vue({
         produto: false,
         produtoEdicao: false,
         produtoCadastro: false,
-        endpoint_produtos: 'http://localhost:8080'
+        endpoint_produtos: 'http://localhost:8080',
+
+        // CLIENTES
+        endpoint_clientes: 'http://localhost:8081',
+        clientes: [],
+        cliente: false,
+        clienteCadastro: false,
+        clienteEdicao: false,
+        novoCliente: {
+          nome: '',
+          cpf: ''
+        }
 
     },
 
@@ -52,6 +63,9 @@ const vm = new Vue({
                 this.produto = false;
                 this.produtoEdicao = false;
                 this.produtoCadastro = false;
+                this.cliente = false;
+                this.clienteCadastro = false;
+                this.clienteEdicao = false;
             }
         },
 
@@ -145,17 +159,110 @@ const vm = new Vue({
             };
         },
 
+        // CLIENTES
+        abrirModalCadastroCliente() {
+          this.clienteCadastro = {
+            nome: '',
+            cpf: ''
+          };
+        },
+
+        cadastrarCliente() {
+            fetch(`${this.endpoint_clientes}/clientes`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nome: this.clienteCadastro.nome,
+                    cpf: this.clienteCadastro.cpf
+                })
+            });
+
+            this.clienteCadastro = false;
+        },
+
+        carregarClientes(){
+            fetch(`${this.endpoint_clientes}/clientes`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => this.clientes = data);
+        },
+
+        deletarCliente(id){
+            fetch(`${this.endpoint_clientes}/clientes/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                    if (response.ok) {
+                        this.produto = false;
+                    } else {
+                        alert('Erro ao deletar o produto.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na requisição DELETE:', error);
+                    alert('Erro de conexão com o servidor.');
+                });
+
+                this.cliente = false;
+        },
+
+        editarCliente() {
+            fetch(`${this.endpoint_clientes}/clientes/${this.clienteEdicao.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nome: this.clienteEdicao.nome,
+                    descricao: this.clienteEdicao.cpf
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        this.clienteEdicao = false;
+                    } else {
+                        alert('Erro ao atualizar o cliente.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na requisição PUT:', error);
+                    alert('Erro de conexão com o servidor.');
+                });
+        },
+
+        ativarAvisoDelecaoCliente(cliente) {
+            this.cliente = cliente;
+        },
+
+        abrirModalEdicaoCliente(cliente) {
+            this.clienteEdicao = cliente;
+        },
+
     },
 
     created() {
         // Estoque
         this.carregarEstoque();
+
+        // CLIENTES
+        this.carregarClientes();
     },
 
     watch: {
         // Estoque
         produtos() {
             this.carregarEstoque();
+        },
+
+        // CLIENTES
+        clientes() {
+            this.carregarClientes();
         }
     },
 
@@ -179,5 +286,8 @@ const vm = new Vue({
 
             return sum;
         }
+
+        // CLIENTES
+
     }
 });
