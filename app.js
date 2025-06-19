@@ -164,7 +164,7 @@ const vm = new Vue({
             let sum = 0;
 
             this.produtos.forEach(element => {
-                sum += element.preco;
+                sum += element.preco * element.quantidade;
             });
 
             return sum;
