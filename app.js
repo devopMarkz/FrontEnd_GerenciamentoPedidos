@@ -114,10 +114,33 @@ const vm = new Vue({
         // Estoque
         this.carregarEstoque();
     },
+
     watch: {
         // Estoque
         produtos() {
             this.carregarEstoque();
+        }
+    },
+
+    computed: {
+        totalValorProdutos(){
+            let sum = 0;
+
+            this.produtos.forEach(element => {
+                sum += element.preco;
+            });
+
+            return sum;
+        },
+
+        totalQuantiaEstoque(){
+            let sum = 0;
+
+            this.produtos.forEach(element => {
+                sum += element.quantidade;
+            });
+
+            return sum;
         }
     }
 });

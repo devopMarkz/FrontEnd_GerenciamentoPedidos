@@ -19,7 +19,7 @@
             <div class="actions">
                 <button>Ações</button>
                 <button>Consultar</button>
-                <button @click="exportarRelatorioEstoque()">Imprimir/Exportar</button>
+                <button @click="exportarRelatorioEstoque()">Exportar Excel</button>
             </div>
         </header>
 
@@ -49,6 +49,14 @@
                             <img src="../../assets/icons/delete-icon.svg" alt="deletar"
                                 @click.stop="ativarAvisoDelecao(produto)">
                         </td>
+                    </tr>
+                    <tr style="background-color: rgb(226, 226, 226);">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="font-weight: bold;">{{totalValorProdutos | numeroPreco}}</td>
+                        <td style="font-weight: bold;"  >{{totalQuantiaEstoque}}</td>
+                        <td></td>
                     </tr>
                 </tbody>
 
