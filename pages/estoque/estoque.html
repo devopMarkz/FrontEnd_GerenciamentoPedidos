@@ -39,15 +39,15 @@
                 </thead>
 
                 <tbody>
-                    <tr v-for="produto in produtos" :key="produto.id">
+                    <tr v-for="produto in produtos" :key="produto.id" @click="abrirModalEdicaoProduto(produto)">
                         <td>{{produto.id}}</td>
                         <td>{{produto.nome}}</td>
                         <td>{{produto.descricao}}</td>
                         <td>{{produto.preco | numeroPreco}}</td>
                         <td>{{produto.quantidade}}</td>
-                        <td class="deletar_produto">
+                        <td class="deletar_produto" @click.stop>
                             <img src="../../assets/icons/delete-icon.svg" alt="deletar"
-                                @click="ativarAvisoDelecao(produto)">
+                                @click.stop="ativarAvisoDelecao(produto)">
                         </td>
                     </tr>
                 </tbody>
@@ -56,12 +56,38 @@
 
         </div>
 
-        <div class="container_aviso" v-if="produto" @click="fecharModal(event)">
+        <div class="container_fundo" v-if="produto" @click="fecharModal(event)">
             <div class="aviso_exclusao">
                 <p class="info_exclusao">Deseja excluir {{produto.nome}}?</p>
                 <button class="confirmacao_aviso" @click="deletarProduto(produto.id)">Sim</button>
                 <button class="negacao_aviso" @click="produto = false">Não</button>
-                <button @click="produto = false" class="fechar_aviso"><img src="../../assets/icons/fechar.svg" alt="" srcset=""></button>
+                <button @click="produto = false" class="fechar_aviso"><img src="../../assets/icons/fechar.svg" alt=""
+                        srcset=""></button>
+            </div>
+        </div>
+
+        <div class="container_fundo" v-if="produtoEdicao" @click="fecharModal(event)">
+            <div class="edicao_produto">
+                <h2>Editar Produto</h2>
+
+                <form @submit.prevent>
+                    <label for="nome">Nome:</label>
+                    <input type="text" v-model="produtoEdicao.nome" id="nome" required>
+
+                    <label for="descricao">Descrição:</label>
+                    <input type="text" v-model="produtoEdicao.descricao" id="descricao" required>
+
+                    <label for="preco">Preço:</label>
+                    <input type="number" v-model.number="produtoEdicao.preco" id="preco" step="0.01" required>
+
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" v-model.number="produtoEdicao.quantidade" id="quantidade" required>
+
+                    <div class="botoes_edicao">
+                        <button type="submit" class="confirmacao_aviso" @click="editarProduto">Salvar</button>
+                        <button type="button" class="negacao_aviso" @click="produtoEdicao = false">Cancelar</button>
+                    </div>
+                </form>
             </div>
         </div>
 

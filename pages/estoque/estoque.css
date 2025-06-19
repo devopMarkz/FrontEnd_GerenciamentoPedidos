@@ -21,7 +21,8 @@ table {
     background-color: white;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     border: 1px solid #ccc;
     text-align: left;
@@ -36,19 +37,19 @@ tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-tr:hover{
+tr:hover {
     background-color: rgb(237, 237, 237);
 }
 
-.deletar_produto{
+.deletar_produto {
     text-align: center;
 }
 
-.deletar_produto img{
+.deletar_produto img {
     cursor: pointer;
 }
 
-.aviso_exclusao{
+.aviso_exclusao {
     z-index: 10;
     position: fixed;
     top: 50%;
@@ -56,14 +57,14 @@ tr:hover{
     transform: translate(-50%, -50%);
     width: 300px;
     background: white;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     display: block;
     padding: 20px;
     border-radius: 2px;
     text-align: center;
 }
 
-.container_aviso{
+.container_fundo {
     z-index: 1;
     top: 0;
     position: fixed;
@@ -72,7 +73,7 @@ tr:hover{
     background: rgba(0, 0, 0, .5);
 }
 
-.fechar_aviso{
+.fechar_aviso {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,32 +90,67 @@ tr:hover{
 }
 
 .confirmacao_aviso {
-  background-color: #1e4e79 ; /* verde */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin-right: 10px;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #1e4e79;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .confirmacao_aviso:hover {
-  background-color: #39668e; /* verde escuro no hover */
+    background-color: #39668e;
 }
 
 .negacao_aviso {
-  background-color: #1e4e79; /* vermelho */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #1e4e79;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .negacao_aviso:hover {
-  background-color: #39668e; /* vermelho escuro no hover */
+    background-color: #39668e;
+}
+
+.edicao_produto {
+    background: #fff;
+    padding: 20px;
+    border-radius: 2px;
+    width: 350px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.edicao_produto form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edicao_produto label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.edicao_produto input {
+    padding: 6px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.botoes_edicao {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
 }
