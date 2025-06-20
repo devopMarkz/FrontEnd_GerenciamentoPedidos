@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Pedido</title>
+    <script src="../../vue.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="pedidos.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <header class="cabecalho">
+            <div class="logos">
+                <h1 @click="irParaPaginaInicial()" style="cursor: pointer;">Home</h1>
+                <h1 style="cursor: pointer;">Pedidos</h1>
+            </div>
+            <div class="actions2">
+                <button @click="carregarPedidosPorStatus('CONFIRMADO')">Pedidos Confirmados</button>
+                <button @click="carregarPedidosPorStatus('PENDENTE')">Pedidos Pendentes</button>
+                <button @click="carregarPedidosPorStatus('CANCELADO')">Pedidos Cancelados</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <form @submit.prevent="enviarPedido">
+                <!-- Cliente -->
+                <div class="form-group">
+                    <label for="cliente">Cliente</label>
+                    <select v-model="clienteId" required>
+                        <option value="" disabled selected>Selecione um cliente</option>
+                        <option v-for="cliente in clientes" :key="cliente.id" :value="cliente.id">
+                            {{ cliente.nome }} - {{ cliente.cpf }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Produtos -->
+                <div class="produtos-wrapper">
+                    <label>Produtos</label>
+                    <div class="produto-item" v-for="(item, index) in itens" :key="index">
+                        <select v-model="item.produtoId" required>
+                            <option value="" disabled selected>Selecione um produto</option>
+                            <option v-for="produto in produtos" :key="produto.id" :value="produto.id">
+                                {{produto.id}} - {{ produto.nome }} <span class="estoque_span">(Estoque:
+                                    {{produto.quantidade}})</span>
+                            </option>
+                        </select>
+                        <input type="number" min="1" v-model.number="item.quantidade" placeholder="Qtd" required>
+                    </div>
+                    <button type="button" class="btn-sec" @click="adicionarItem">+ Adicionar produto</button>
+                </div>
+
+                <div class="salvar_pedido">
+                    <button type="submit" class="btn">Salvar Pedido</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- MODAL PEDIDOS CONFIRMADOS / CANCELADOS / PENDENTES -->
+        <div class="container_fundo" v-if="pedidosFiltro.length > 0" @click="fecharModal(event)">
+            <div class="container_pedidos">
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Produtos</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for="pedido in pedidosFiltro" :key="pedido.id">
+                            <td>{{pedido.id}}</td>
+                            <td>{{buscarClientePorId(pedido.clienteId)}}</td>
+                            <td>{{pedido.status}}</td>
+                            <td>{{pedido.total | numeroPreco}}</td>
+                            <td>
+                                <select name="produtos" id="produtos">
+                                    <option value="padrao" selected disabled>Produtos Comprados</option>
+                                    <option v-for="item in pedido.itens" value="">
+                                        {{buscarProdutoPorId(item.produtoId)}} - Quantidade: {{item.quantidade}} - Total: {{item.totalItem | numeroPreco}}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../app.js"></script>
+</body>
+
+</html>

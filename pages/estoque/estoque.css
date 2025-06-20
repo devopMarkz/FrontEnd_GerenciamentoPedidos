@@ -7,32 +7,6 @@
     padding: 20px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-}
-
-th,
-td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: left;
-    font-size: 14px;
-}
-
-th {
-    background-color: #d9e1f2;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: rgb(237, 237, 237);
-}
-
 .deletar {
     text-align: center;
 }
@@ -61,15 +35,6 @@ tr:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.container_fundo {
-    z-index: 1;
-    top: 0;
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, .5);
 }
 
 .fechar_aviso {

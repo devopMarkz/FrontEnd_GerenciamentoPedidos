@@ -27,7 +27,9 @@ const vm = new Vue({
             { produtoId: '', quantidade: 1 }
         ],
         clientes: [],
-        produtos: []
+        produtos: [],
+        pedidos: [],
+        pedidosFiltro: []
 
     },
 
@@ -48,6 +50,11 @@ const vm = new Vue({
             fetch(`${this.endpoint_produtos}/produtos`)
                 .then(response => response.json())
                 .then(data => this.produtos = data);
+        },
+
+        buscarProdutoPorId(id){
+            const produto = this.produtos.find(produto => produto.id === id);
+            return produto ? produto.nome : 'Desconhecido';
         },
 
         deletarProduto(id) {
@@ -79,6 +86,7 @@ const vm = new Vue({
                 this.cliente = false;
                 this.clienteCadastro = false;
                 this.clienteEdicao = false;
+                this.pedidosFiltro = [];
             }
         },
 
@@ -252,6 +260,11 @@ const vm = new Vue({
 
         },
 
+        buscarClientePorId(id){
+            const cliente = this.clientes.find(cliente => cliente.id === id);
+            return cliente ? cliente.nome : 'Desconhecido';
+        },
+
         ativarAvisoDelecaoCliente(cliente) {
             this.cliente = cliente;
         },
@@ -319,6 +332,18 @@ const vm = new Vue({
             } else {
                 alert('Erro ao criar pedido');
             }
+        },
+
+        carregarPedidosPorStatus(status){
+            fetch(`${this.endpoint_pedidos}/pedidos?status=${status}`)
+            .then(response => response.json())
+            .then(data => this.pedidosFiltro = data);
+        },
+
+        carregarPedidos(){
+            fetch(`${this.endpoint_pedidos}/pedidos`)
+            .then(response => response.json())
+            .then(data => this.pedidos = data);
         }
 
     },
@@ -332,6 +357,7 @@ const vm = new Vue({
 
         // PEDIDOS
         this.carregarDados();
+        this.carregarPedidos();
     },
 
     watch: {
